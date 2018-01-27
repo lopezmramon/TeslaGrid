@@ -28,9 +28,9 @@ public class DrawerController : MonoBehaviour
     }
     public void GrabBuilding(int buildingIndex)
     {
-        DispatchGrabbedBuildingEvent((BuildingType) buildingIndex);
+        DispatchGrabbedBuildingEvent(buildingIndex);
     }
-    public void DispatchGrabbedBuildingEvent(BuildingType requestedBuilding)
+    public void DispatchGrabbedBuildingEvent(int requestedBuilding)
     {
         CodeControl.Message.Send<GrabbedBuildingEvent>(new GrabbedBuildingEvent(requestedBuilding));
     }

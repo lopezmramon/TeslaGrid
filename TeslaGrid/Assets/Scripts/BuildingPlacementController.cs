@@ -35,36 +35,37 @@ public class BuildingPlacementController : MonoBehaviour
     }
     void SetLinearHighlights()
     {
-        int range = heldBuilding.GetComponent<Building>().range;
         if (tentativeTile.GetSignal() <= 0)
         {
             return;
         }
-        tentativeTile.Highlight(tentativeTile.x, tentativeTile.y);
+        int range = heldBuilding.GetComponent<Building>().range;
+
+        tentativeTile.Highlight(tentativeTile.x, tentativeTile.y,false);
         if (heldBuilding.GetComponent<Building>().buildingType == BuildingType.RepeaterAntenna)
         {
             for (int i = 1; i <= range; i++)
             {
                 if (tentativeTile.x - i >= 0)
                 {
-                    LevelManager.instance.grid.tiles[tentativeTile.x - i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y);
+                    LevelManager.instance.grid.tiles[tentativeTile.x - i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y, false);
                     tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x - i, tentativeTile.y]);
                 }
                 if (tentativeTile.y - i >= 0)
                 {
-                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - i].Highlight(tentativeTile.x, tentativeTile.y);
+                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - i].Highlight(tentativeTile.x, tentativeTile.y, false);
                     tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - i]);
 
                 }
                 if (tentativeTile.x + i < LevelManager.instance.grid.tiles.GetLength(0))
                 {
-                    LevelManager.instance.grid.tiles[tentativeTile.x + i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y);
+                    LevelManager.instance.grid.tiles[tentativeTile.x + i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y, false);
                     tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x + i, tentativeTile.y]);
 
                 }
                 if (tentativeTile.y + i < LevelManager.instance.grid.tiles.GetLength(1))
                 {
-                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + i].Highlight(tentativeTile.x, tentativeTile.y);
+                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + i].Highlight(tentativeTile.x, tentativeTile.y, false);
                     tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + i]);
 
 
@@ -72,24 +73,89 @@ public class BuildingPlacementController : MonoBehaviour
 
             }
         }
-        else if (heldBuilding.GetComponent<Building>().buildingType == BuildingType.P2PAntenna)
+        else if (heldBuilding.GetComponent<Building>().buildingType == BuildingType.P2PAntennaHorizontal)
         {
             for (int i = 1; i <= range; i++)
             {
                 if (tentativeTile.x - i >= 0)
                 {
-                    LevelManager.instance.grid.tiles[tentativeTile.x - i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y);
+                    LevelManager.instance.grid.tiles[tentativeTile.x - i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y, false);
                     tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x - i, tentativeTile.y]);
                 }
-                if (tentativeTile.x - 2*i >= 0)
+                if (tentativeTile.x - 2 * i >= 0)
                 {
-                    LevelManager.instance.grid.tiles[tentativeTile.x - 2*i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y);
-                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x - 2*i, tentativeTile.y]);
+                    LevelManager.instance.grid.tiles[tentativeTile.x - 2 * i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y, false);
+                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x - 2 * i, tentativeTile.y]);
                 }
                 if (tentativeTile.x + i < LevelManager.instance.grid.tiles.GetLength(0))
                 {
-                    LevelManager.instance.grid.tiles[tentativeTile.x + i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y);
+                    LevelManager.instance.grid.tiles[tentativeTile.x + i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y,false);
                     tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x + i, tentativeTile.y]);
+
+                }
+
+
+            }
+        }
+        else if (heldBuilding.GetComponent<Building>().buildingType == BuildingType.P2PAntennaVertical)
+        {
+
+            for (int i = 1; i <= range; i++)
+            {
+                if (tentativeTile.y - i >= 0)
+                {
+                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - i].Highlight(tentativeTile.x, tentativeTile.y, false);
+                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - i]);
+                }
+                if (tentativeTile.y - 2 * i >= 0)
+                {
+                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - 2 * i].Highlight(tentativeTile.x, tentativeTile.y, false);
+                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - 2 * i]);
+                }
+                if (tentativeTile.y + i < LevelManager.instance.grid.tiles.GetLength(0))
+                {
+                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + i].Highlight(tentativeTile.x, tentativeTile.y, false);
+                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + i]);
+
+                }
+
+
+            }
+        }
+        else if (heldBuilding.GetComponent<Building>().buildingType == BuildingType.SatelliteVertical)
+        {
+            for (int i = 1; i <= range; i++)
+            {
+
+                if (tentativeTile.y - 2 * i >= 0)
+                {
+                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - 2 * i].Highlight(tentativeTile.x, tentativeTile.y,true);
+                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - 2 * i]);
+                }
+                if (tentativeTile.y + 2 * i < LevelManager.instance.grid.tiles.GetLength(0))
+                {
+                    LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + 2 * i].Highlight(tentativeTile.x, tentativeTile.y,true);
+                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + 2 * i]);
+
+                }
+
+
+            }
+        }
+        else if (heldBuilding.GetComponent<Building>().buildingType == BuildingType.SatelliteHorizontal)
+        {
+            for (int i = 1; i <= range; i++)
+            {
+
+                if (tentativeTile.x - 2 * i >= 0)
+                {
+                    LevelManager.instance.grid.tiles[tentativeTile.x - 2 * i, tentativeTile.y ].Highlight(tentativeTile.x, tentativeTile.y, true);
+                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x - 2 * i, tentativeTile.y ]);
+                }
+                if (tentativeTile.x + 2 * i < LevelManager.instance.grid.tiles.GetLength(0))
+                {
+                    LevelManager.instance.grid.tiles[tentativeTile.x + 2 * i, tentativeTile.y ].Highlight(tentativeTile.x, tentativeTile.y, true);
+                    tentativeTileNeighbors.Add(LevelManager.instance.grid.tiles[tentativeTile.x + 2 * i, tentativeTile.y ]);
 
                 }
 
@@ -103,35 +169,43 @@ public class BuildingPlacementController : MonoBehaviour
     {
         tentativeTileNeighbors.Clear();
         if (tile == null || tile.occupied) return;
-        for (int i = 0; i <= heldBuilding.GetComponent<Building>().range; i++)
+        foreach (Tile t in LevelManager.instance.grid.tiles)
         {
-            if (tentativeTile.x - i >= 0)
+            if (t.GetSignal() <= 0)
             {
-                LevelManager.instance.grid.tiles[tentativeTile.x - i, tentativeTile.y].StopHighlight();
+                t.StopHighlight();
             }
-            if (tentativeTile.y - i >= 0)
-            {
-                LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - i].StopHighlight();
-
-            }
-            if (tentativeTile.x + i < LevelManager.instance.grid.tiles.GetLength(0))
-            {
-                LevelManager.instance.grid.tiles[tentativeTile.x + i, tentativeTile.y].StopHighlight();
-
-            }
-            if (tentativeTile.y + i < LevelManager.instance.grid.tiles.GetLength(1))
-            {
-                LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + i].StopHighlight();
-
-            }
-
         }
+        /* for (int i = 0; i <= heldBuilding.GetComponent<Building>().range; i++)
+         {
+             if (tentativeTile.x - i >= 0)
+             {
+                 LevelManager.instance.grid.tiles[tentativeTile.x - i, tentativeTile.y].StopHighlight();
+             }
+             if (tentativeTile.y - i >= 0)
+             {
+                 LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y - i].StopHighlight();
+
+             }
+             if (tentativeTile.x + i < LevelManager.instance.grid.tiles.GetLength(0))
+             {
+                 LevelManager.instance.grid.tiles[tentativeTile.x + i, tentativeTile.y].StopHighlight();
+
+             }
+             if (tentativeTile.y + i < LevelManager.instance.grid.tiles.GetLength(1))
+             {
+                 LevelManager.instance.grid.tiles[tentativeTile.x, tentativeTile.y + i].StopHighlight();
+
+             }
+
+         }*/
     }
 
 
     private void Update()
     {
         if (!isBuildingHeld) return;
+        if (heldBuilding == null) isBuildingHeld = false;
         heldBuilding.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
@@ -158,7 +232,7 @@ public class BuildingPlacementController : MonoBehaviour
             tentativeTile.SetOccupyingBuilding(heldBuilding.GetComponent<Building>());
 
             heldBuilding.transform.SetParent(tentativeTile.transform);
-           
+
             foreach (Tile tile in tentativeTileNeighbors)
             {
                 tile.IncreaseSignal(1, tentativeTile.x, tentativeTile.y);

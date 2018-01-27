@@ -14,8 +14,9 @@ public enum TileType
 
 public enum BuildingType
 {
-    Antenna,
     RepeaterAntenna,
-    P2PAntenna,
-    MonsterSlayer,
+    P2PAntennaVertical,
+    P2PAntennaHorizontal,
+    SatelliteVertical,
+    SatelliteHorizontal,
 }

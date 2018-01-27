@@ -8,6 +8,7 @@ public class Tile : MonoBehaviour
 {
     public int x;
     public int y;
+    [HideInInspector]
     public bool occupied;
     [SerializeField]
     int signal;
@@ -15,12 +16,15 @@ public class Tile : MonoBehaviour
     {
         return signal;
     }
+    public Sprite[] sprites;
     public BuildingType occupyingBuilding;
     public TileType type;
     public List<Tile> neighboringTiles = new List<Tile>();
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
+    [HideInInspector]
     public bool isObjective;
+    [HideInInspector]
     public int objectiveSignal;
 
     private void Awake()
@@ -33,8 +37,9 @@ public class Tile : MonoBehaviour
         transform.position = new Vector3(x, y);
         transform.name = string.Format("Tile {0},{1}", x, y);
         signal = InitialSignal();
-        Highlight(x, y);
+        Highlight(x, y, false);
         StopHighlight();
+        spriteRenderer.sprite = sprites[(int)type];
     }
 
     int InitialSignal()
@@ -50,10 +55,12 @@ public class Tile : MonoBehaviour
         return 0;
     }
    
-    public void Highlight(int originX, int originY)
+    public void Highlight(int originX, int originY, bool satellite)
     {
-        if (!CheckDistanceTransmissibility(originX,originY)) return;
+        
+        if (!satellite && !CheckDistanceTransmissibility(originX,originY) || signal<0) return;
       
+        
         spriteRenderer.color = Color.green;
     }
     
@@ -141,6 +148,7 @@ public class Tile : MonoBehaviour
         {
             DispatchGoalReachedEvent();
         }
+        StopHighlight();
     }
     public void DecreaseSignal(int amount)
     {
@@ -164,7 +172,7 @@ public class Tile : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        CodeControl.Message.Send<GrabbedBuildingEvent>(new GrabbedBuildingEvent(this.occupyingBuilding));
+        CodeControl.Message.Send<GrabbedBuildingEvent>(new GrabbedBuildingEvent((int)this.occupyingBuilding));
 
     }
     private void OnMouseEnter()

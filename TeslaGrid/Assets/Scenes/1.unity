@@ -205,8 +205,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildings:
-  - {fileID: 1083915192201194, guid: 999d58b6f26d6c642aaf3a98417f286d, type: 2}
   - {fileID: 1083915192201194, guid: 0ed9d49eee2096f44a7e044b8dc911f7, type: 2}
+  - {fileID: 1083915192201194, guid: d0b9dd25fa8dc474f85c674c37d0b56e, type: 2}
+  - {fileID: 1083915192201194, guid: 999d58b6f26d6c642aaf3a98417f286d, type: 2}
+  - {fileID: 1083915192201194, guid: 339833a5207a96840a83149c648b663c, type: 2}
+  - {fileID: 1083915192201194, guid: 0112d6c7a8cdf604cb6b11c8bc00447d, type: 2}
 --- !u!1 &269456177
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,9 +303,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 0
-  antennaCost: 0
   repeaterCost: 0
   p2pAntennaCost: 0
+  satelliteCost: 0
 --- !u!4 &1567909397
 Transform:
   m_ObjectHideFlags: 0
@@ -350,7 +353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 114405044747606622, guid: 0cb174b402a2809419764989f0cf2c6c, type: 2}
+  - {fileID: 114860166959065986, guid: e96aa1ab36a546a44b486967b07aee2d, type: 2}
   grid: {fileID: 0}
 --- !u!1001 &1806203368
 Prefab:
@@ -448,6 +451,30 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773176861248402, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114618169655439368, guid: a80aeeac6c0bfa24da2f46f41bf9cee8,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DispatchGrabbedBuildingEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 114618169655439368, guid: a80aeeac6c0bfa24da2f46f41bf9cee8,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114618169655439368, guid: a80aeeac6c0bfa24da2f46f41bf9cee8,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114448300906506232, guid: a80aeeac6c0bfa24da2f46f41bf9cee8,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}

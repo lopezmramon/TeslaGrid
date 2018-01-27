@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 1
   cost: 100
-  buildingType: 1
+  buildingType: 0
   signalPower: 1
   tilesAffected: []
 --- !u!212 &212821143631686542

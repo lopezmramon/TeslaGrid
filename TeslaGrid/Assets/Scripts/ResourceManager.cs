@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class ResourceManager : MonoBehaviour 
+public class ResourceManager : MonoBehaviour
 {
     public int money;
-    public int antennaCost, repeaterCost, p2pAntennaCost;
+    public int repeaterCost, p2pAntennaCost, satelliteCost;
     private void Awake()
     {
         CodeControl.Message.AddListener<DroppedBuildingEvent>(OnBuildingDropped);
@@ -20,20 +20,21 @@ public class ResourceManager : MonoBehaviour
 
     void ChangeMoney(BuildingType buildingType, TileType tileType)
     {
-        int cost =0;
+        int cost = 0;
         switch (buildingType)
         {
-            case BuildingType.Antenna:
-                cost = antennaCost;
-               
-                break;
             case BuildingType.RepeaterAntenna:
                 cost = repeaterCost;
                 break;
-            case BuildingType.P2PAntenna:
+            case BuildingType.P2PAntennaHorizontal:
                 cost = p2pAntennaCost;
                 break;
-
+            case BuildingType.P2PAntennaVertical:
+                cost = p2pAntennaCost;
+                break;
+            case BuildingType.SatelliteHorizontal:
+                cost = satelliteCost;
+                break;
         }
         if (tileType == TileType.Woods)
         {

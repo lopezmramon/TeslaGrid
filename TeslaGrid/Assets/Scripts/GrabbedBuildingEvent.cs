@@ -4,12 +4,12 @@
 
 public class GrabbedBuildingEvent : CodeControl.Message 
 {
-    BuildingType requestedBulding;
-    public BuildingType GetBuilding()
+    int requestedBulding;
+    public int GetBuilding()
     {
         return requestedBulding;
     }
-    public GrabbedBuildingEvent (BuildingType requestedBulding)
+    public GrabbedBuildingEvent (int requestedBulding)
     {
         this.requestedBulding = requestedBulding;
     }
