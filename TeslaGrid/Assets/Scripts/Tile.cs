@@ -20,6 +20,9 @@ public class Tile : MonoBehaviour
     public List<Tile> neighboringTiles = new List<Tile>();
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
+    public bool isObjective;
+    public int objectiveSignal;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -49,9 +52,7 @@ public class Tile : MonoBehaviour
    
     public void Highlight(int originX, int originY)
     {
-        if (signal + 1 <= 0 || !CheckDistanceTransmissibility(originX,originY)) return;
-       
-
+        if (!CheckDistanceTransmissibility(originX,originY)) return;
       
         spriteRenderer.color = Color.green;
     }
@@ -71,6 +72,7 @@ public class Tile : MonoBehaviour
     {
         int distanceX = Mathf.Abs(x - originX);
         int distanceY = Mathf.Abs(y - originY);
+       
         if (y < originY)
         {
             for (int i = 1; i <= distanceY; i++)
@@ -127,8 +129,18 @@ public class Tile : MonoBehaviour
     }
     public void IncreaseSignal(int amount, int originX, int originY)
     {
+        if(originX == x && originY == y)
+        {
+            signal += amount;
+            return;
+        }
         if (CheckDistanceTransmissibility(originX, originY))
         signal += amount;
+
+        if(signal == objectiveSignal && isObjective)
+        {
+            DispatchGoalReachedEvent();
+        }
     }
     public void DecreaseSignal(int amount)
     {
@@ -141,7 +153,6 @@ public class Tile : MonoBehaviour
     void DispatchTentativePlacementEvent()
     {
         if (type == TileType.Mountain || type == TileType.Water) return;
-
         CodeControl.Message.Send<TentativePlacementEvent>(new TentativePlacementEvent(this));
     }
     void DispatchBuildingGrabbedEvent()
@@ -170,5 +181,10 @@ public class Tile : MonoBehaviour
         {
             DispatchBuildingGrabbedEvent();
         }
+    }
+
+    void DispatchGoalReachedEvent()
+    {
+        CodeControl.Message.Send<TileGoalReachedEvent>(new TileGoalReachedEvent(this));
     }
 }

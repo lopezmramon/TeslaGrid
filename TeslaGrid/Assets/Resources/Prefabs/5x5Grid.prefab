@@ -254,6 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4605672797800002}
   - component: {fileID: 114447611416150670}
+  - component: {fileID: 114405044747606622}
   m_Layer: 0
   m_Name: 5x5Grid
   m_TagString: Untagged
@@ -1479,8 +1480,12 @@ MonoBehaviour:
   x: 0
   y: 1
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114041548857669740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1495,8 +1500,12 @@ MonoBehaviour:
   x: 3
   y: 4
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114047278920760158
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1511,8 +1520,12 @@ MonoBehaviour:
   x: 3
   y: 2
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114094316650967116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1527,8 +1540,12 @@ MonoBehaviour:
   x: 3
   y: 0
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114095996841364226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1543,8 +1560,12 @@ MonoBehaviour:
   x: 2
   y: 4
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114096948261950758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1559,8 +1580,12 @@ MonoBehaviour:
   x: 2
   y: 0
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114232630074098872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1575,8 +1600,12 @@ MonoBehaviour:
   x: 4
   y: 0
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114274188611475900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1591,8 +1620,12 @@ MonoBehaviour:
   x: 1
   y: 2
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114285132539233352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1607,8 +1640,12 @@ MonoBehaviour:
   x: 1
   y: 4
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114292050647494344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1623,8 +1660,12 @@ MonoBehaviour:
   x: 1
   y: 3
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114372122599506194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1639,8 +1680,29 @@ MonoBehaviour:
   x: 0
   y: 4
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
+--- !u!114 &114405044747606622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1508889144325508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b1eb086041c9345b99ba2c8e840a97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moneyAmount: 1000
+  levelType: 1
+  coverTileAmount: 0
+  specificTileX: 2
+  specificTileY: 3
+  specificTileSignalAmount: 1
 --- !u!114 &114447611416150670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1668,8 +1730,12 @@ MonoBehaviour:
   x: 0
   y: 3
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114455453143473268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1684,8 +1750,12 @@ MonoBehaviour:
   x: 4
   y: 1
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 1
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114459839486954592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1700,8 +1770,12 @@ MonoBehaviour:
   x: 1
   y: 1
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 1
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114469706168151734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1716,8 +1790,12 @@ MonoBehaviour:
   x: 0
   y: 2
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114507748121052306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1732,8 +1810,12 @@ MonoBehaviour:
   x: 2
   y: 3
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 2
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114508838229119426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1748,8 +1830,12 @@ MonoBehaviour:
   x: 0
   y: 0
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114550564619358872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1764,8 +1850,12 @@ MonoBehaviour:
   x: 4
   y: 2
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 4
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114587071715651274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1780,8 +1870,12 @@ MonoBehaviour:
   x: 4
   y: 3
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114590011071480104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1796,8 +1890,12 @@ MonoBehaviour:
   x: 2
   y: 2
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114607569170627634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1812,8 +1910,12 @@ MonoBehaviour:
   x: 2
   y: 1
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114716489997911956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1828,8 +1930,12 @@ MonoBehaviour:
   x: 4
   y: 4
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114810773161245720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1844,8 +1950,12 @@ MonoBehaviour:
   x: 1
   y: 0
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114839581306516810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1860,8 +1970,12 @@ MonoBehaviour:
   x: 3
   y: 3
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 1
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!114 &114907295354612834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1876,8 +1990,12 @@ MonoBehaviour:
   x: 3
   y: 1
   occupied: 0
+  signal: 0
   occupyingBuilding: 0
+  type: 0
   neighboringTiles: []
+  isObjective: 0
+  objectiveSignal: 0
 --- !u!212 &212075824111797600
 SpriteRenderer:
   m_ObjectHideFlags: 1

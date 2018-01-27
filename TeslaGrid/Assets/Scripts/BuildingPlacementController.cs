@@ -36,7 +36,12 @@ public class BuildingPlacementController : MonoBehaviour
     void SetLinearHighlights()
     {
         int range = heldBuilding.GetComponent<Building>().range;
-        for (int i = 0; i <= range; i++)
+        if(heldBuilding.GetComponent<Building>().buildingType == BuildingType.RepeaterAntenna && tentativeTile.GetSignal() <=0)
+        {
+            return;
+        }
+        tentativeTile.Highlight(tentativeTile.x,tentativeTile.y);
+        for (int i = 1; i <= range; i++)
         {
             if (tentativeTile.x - i >= 0)
             {

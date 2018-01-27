@@ -16,5 +16,6 @@ public enum BuildingType
 {
     Antenna,
     RepeaterAntenna,
+    P2PAntenna,
     MonsterSlayer,
 }

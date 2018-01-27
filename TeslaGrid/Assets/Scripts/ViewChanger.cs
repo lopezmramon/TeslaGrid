@@ -5,7 +5,18 @@ using UnityEngine.UI;
 public class ViewChanger : MonoBehaviour
 {
     public GameObject[] views;
+    
     int currentView;
+    public static ViewChanger instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else Debug.LogWarning("More than one Viewchanger");
+    }
     private void Start()
     {
         currentView = 0;
@@ -16,10 +27,27 @@ public class ViewChanger : MonoBehaviour
         views[currentView].SetActive(false);
         views[view].SetActive(true);
         currentView = view;
+        if(view == 1)
+        {
+            DispatchLevelRequestEvent(0);
+        }
+        else
+        {
+            DispatchLevelRemoveRequestEvent();
+        }
     }
 
     public void Quit()
     {
         Application.Quit();
+    }
+
+    void DispatchLevelRequestEvent(int level)
+    {
+        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(level));
+    }
+    void DispatchLevelRemoveRequestEvent()
+    {
+        CodeControl.Message.Send<RemoveLevelRequestEvent>(new RemoveLevelRequestEvent());
     }
 }

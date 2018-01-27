@@ -52,9 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c7ffa248d9674b409d40048ca07a76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 2
+  range: 1
   cost: 100
   buildingType: 0
+  signalPower: 1
+  tilesAffected: []
 --- !u!212 &212821143631686542
 SpriteRenderer:
   m_ObjectHideFlags: 1
