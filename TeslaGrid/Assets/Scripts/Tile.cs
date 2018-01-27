@@ -58,6 +58,7 @@ public class Tile : MonoBehaviour
     }
     public void Highlight()
     {
+        if (signal + 1 <= 0) return;
         spriteRenderer.color = Color.green;
     }
     public void StopHighlight()

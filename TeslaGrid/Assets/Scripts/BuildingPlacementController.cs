@@ -68,7 +68,7 @@ public class BuildingPlacementController : MonoBehaviour
     void RemoveLinearHighlights(Tile tile)
     {
         tentativeTileNeighbors.Clear();
-        if (tile.occupied) return;
+        if (tile == null || tile.occupied) return;
         for (int i = 0; i <= heldBuilding.GetComponent<Building>().range; i++)
         {
             if (tentativeTile.x - i >= 0)
