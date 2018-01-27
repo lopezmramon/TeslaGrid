@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildings:
-  - {fileID: 1083915192201194, guid: fe41d4cebb083cb4da2eb7c22a8bd275, type: 2}
+  - {fileID: 1083915192201194, guid: 999d58b6f26d6c642aaf3a98417f286d, type: 2}
   - {fileID: 1083915192201194, guid: 0ed9d49eee2096f44a7e044b8dc911f7, type: 2}
 --- !u!1 &269456177
 GameObject:
@@ -351,6 +351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 114405044747606622, guid: 0cb174b402a2809419764989f0cf2c6c, type: 2}
+  grid: {fileID: 0}
 --- !u!1001 &1806203368
 Prefab:
   m_ObjectHideFlags: 0
@@ -361,7 +362,7 @@ Prefab:
     - target: {fileID: 224869911468860894, guid: a80aeeac6c0bfa24da2f46f41bf9cee8,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 590
+      value: 604
       objectReference: {fileID: 0}
     - target: {fileID: 224869911468860894, guid: a80aeeac6c0bfa24da2f46f41bf9cee8,
         type: 2}

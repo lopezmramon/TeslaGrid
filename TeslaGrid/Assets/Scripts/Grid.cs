@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //Created by Ramon Lopez - @RamonDev - npgdev@gmail.com
@@ -8,17 +9,18 @@ public class Grid : MonoBehaviour
     public int sizeX;
     public int sizeY;
     public Tile[,] tiles;
-    public static Grid instance;
-    private void Awake()
+
+
+    private void OnEnable()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else Debug.LogWarning("More than one grid");
+        
         
     }
     private void Start()
+    {
+        DetectGrid();
+    }
+    void DetectGrid()
     {
         tiles = new Tile[sizeX, sizeY];
 
@@ -27,6 +29,13 @@ public class Grid : MonoBehaviour
             tiles[tile.x, tile.y] = tile;
         }
         SetTileNeighbors();
+        DispatchGridCreatedEvent();
+    }
+
+    private void DispatchGridCreatedEvent()
+    {
+        CodeControl.Message.Send<GridCreatedEvent>(new GridCreatedEvent(this));
+
     }
 
     void GenerateGrid()
@@ -102,5 +111,5 @@ public class Grid : MonoBehaviour
         }
     }
 
-
+   
 }

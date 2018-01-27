@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private void OnTileGoalReached(TileGoalReachedEvent obj)
     {
 
-        ViewChanger.instance.ChangeView(0);
+        ViewChanger.instance.ChangeView(4);
 
     }
 }

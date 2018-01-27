@@ -11,13 +11,19 @@ public class Level : MonoBehaviour
 
     private void Start()
     {
-        Grid.instance.tiles[specificTileX, specificTileY].isObjective = true;
-        Grid.instance.tiles[specificTileX, specificTileY].objectiveSignal = specificTileSignalAmount;
-        if(levelType == LevelType.CoverTiles)
+        StartCoroutine(SetObjectives());
+
+    }
+
+    IEnumerator SetObjectives()
+    {
+        yield return new WaitForSeconds(0.5f);
+        LevelManager.instance.grid.tiles[specificTileX, specificTileY].isObjective = true;
+        LevelManager.instance.grid.tiles[specificTileX, specificTileY].objectiveSignal = specificTileSignalAmount;
+        if (levelType == LevelType.CoverTiles)
         {
 
         }
-
     }
 }
 

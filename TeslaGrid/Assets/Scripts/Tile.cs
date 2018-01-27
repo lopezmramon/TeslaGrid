@@ -65,8 +65,8 @@ public class Tile : MonoBehaviour
     }
     bool CheckTileTransmissibility(int x, int y)
     {
-        if (Grid.instance.tiles[x, y] == null) return false;
-        return Grid.instance.tiles[x, y].signal >= 0;
+        if (LevelManager.instance.grid.tiles[x, y] == null) return false;
+        return LevelManager.instance.grid.tiles[x, y].signal >= 0;
     }
     bool CheckDistanceTransmissibility(int originX, int originY)
     {
