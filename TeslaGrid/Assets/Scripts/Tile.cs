@@ -28,11 +28,11 @@ public class Tile : MonoBehaviour
     {
         DispatchTentativePlacementEvent();
     }
-
-    void DispatchTentativePlacementEvent()
+    private void OnMouseExit()
     {
-        CodeControl.Message.Send<TentativePlacementEvent>(new TentativePlacementEvent(this));
+        DispatchTentativePlacementRejectedEvent();
     }
+   
     public void HighlightNeighbors(int horizontalDepth, int verticalDepth)
     {
         for (int i = 1; i <= horizontalDepth; i++)
@@ -53,5 +53,14 @@ public class Tile : MonoBehaviour
     public void StopHighlight()
     {
         spriteRenderer.color = originalColor;
+    }
+
+    void DispatchTentativePlacementRejectedEvent()
+    {
+        CodeControl.Message.Send<TentativePlacementRejectedEvent>(new TentativePlacementRejectedEvent());
+    }
+    void DispatchTentativePlacementEvent()
+    {
+        CodeControl.Message.Send<TentativePlacementEvent>(new TentativePlacementEvent(this));
     }
 }

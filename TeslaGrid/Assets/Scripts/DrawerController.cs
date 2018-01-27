@@ -20,8 +20,8 @@ public class DrawerController : MonoBehaviour
         }
         open = !open;
     }
-    public void DispatchGrabbedObjectEvent(GameObject gameObject)
+    public void DispatchGrabbedBuildingEvent(GameObject gameObject)
     {
-
+        CodeControl.Message.Send<GrabbedBuildingEvent>(new GrabbedBuildingEvent(gameObject));
     }
 }
