@@ -35,28 +35,29 @@ public class BuildingPlacementController : MonoBehaviour
     }
     void SetLinearHighlights()
     {
-        for (int i = 0; i <= heldBuilding.GetComponent<Building>().range; i++)
+        int range = heldBuilding.GetComponent<Building>().range;
+        for (int i = 0; i <= range; i++)
         {
             if (tentativeTile.x - i >= 0)
             {
-                Grid.instance.tiles[tentativeTile.x - i, tentativeTile.y].Highlight();
+                Grid.instance.tiles[tentativeTile.x - i, tentativeTile.y].Highlight(tentativeTile.x,tentativeTile.y);
                 tentativeTileNeighbors.Add(Grid.instance.tiles[tentativeTile.x - i, tentativeTile.y]);
             }
             if (tentativeTile.y - i >= 0)
             {
-                Grid.instance.tiles[tentativeTile.x, tentativeTile.y - i].Highlight();
+                Grid.instance.tiles[tentativeTile.x, tentativeTile.y - i].Highlight(tentativeTile.x, tentativeTile.y);
                 tentativeTileNeighbors.Add(Grid.instance.tiles[tentativeTile.x, tentativeTile.y - i]);
 
             }
             if (tentativeTile.x + i < Grid.instance.tiles.GetLength(0))
             {
-                Grid.instance.tiles[tentativeTile.x + i, tentativeTile.y].Highlight();
+                Grid.instance.tiles[tentativeTile.x + i, tentativeTile.y].Highlight(tentativeTile.x, tentativeTile.y);
                 tentativeTileNeighbors.Add(Grid.instance.tiles[tentativeTile.x + i, tentativeTile.y]);
 
             }
             if (tentativeTile.y + i < Grid.instance.tiles.GetLength(1))
             {
-                Grid.instance.tiles[tentativeTile.x, tentativeTile.y + i].Highlight();
+                Grid.instance.tiles[tentativeTile.x, tentativeTile.y + i].Highlight(tentativeTile.x, tentativeTile.y);
                 tentativeTileNeighbors.Add(Grid.instance.tiles[tentativeTile.x, tentativeTile.y + i]);
 
 
@@ -122,10 +123,11 @@ public class BuildingPlacementController : MonoBehaviour
         else
         {
             tentativeTile.SetOccupyingBuilding(heldBuilding.GetComponent<Building>());
+
             heldBuilding.transform.SetParent(tentativeTile.transform);
             foreach (Tile tile in tentativeTileNeighbors)
             {
-                tile.IncreaseSignal(1);
+                tile.IncreaseSignal(1, tentativeTile.x, tentativeTile.y);
                 heldBuilding.GetComponent<Building>().tilesAffected.Add(tile);
 
             }

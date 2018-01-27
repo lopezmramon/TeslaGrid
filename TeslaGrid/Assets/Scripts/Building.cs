@@ -8,6 +8,7 @@ public class Building : MonoBehaviour
     public int range;
     public float cost;
     public BuildingType buildingType;
+    public int signalPower;
 
     SpriteRenderer spriteRenderer;
     public List<Tile> tilesAffected = new List<Tile>();

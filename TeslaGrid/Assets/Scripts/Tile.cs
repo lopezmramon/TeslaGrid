@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour
     public int x;
     public int y;
     public bool occupied;
+    [SerializeField]
     int signal;
     public int GetSignal()
     {
@@ -29,6 +30,8 @@ public class Tile : MonoBehaviour
         transform.position = new Vector3(x, y);
         transform.name = string.Format("Tile {0},{1}", x, y);
         signal = InitialSignal();
+        Highlight(x, y);
+        StopHighlight();
     }
 
     int InitialSignal()
@@ -43,40 +46,88 @@ public class Tile : MonoBehaviour
         }
         return 0;
     }
-    public void HighlightNeighbors(int horizontalDepth, int verticalDepth)
+   
+    public void Highlight(int originX, int originY)
     {
-        for (int i = 1; i <= horizontalDepth; i++)
-        {
-            for (int j = 1; j <= verticalDepth; i++)
-            {
-                if (Grid.instance.tiles[x, y + j] != null) Grid.instance.tiles[x, y + j].Highlight();
-                if (Grid.instance.tiles[x + i, y] != null) Grid.instance.tiles[x + i, y].Highlight();
-                if (Grid.instance.tiles[x - i, y] != null) Grid.instance.tiles[x - i, y].Highlight();
-                if (Grid.instance.tiles[x, y - j] != null) Grid.instance.tiles[x, y - j].Highlight();
-            }
-        }
-    }
-    public void Highlight()
-    {
-        if (signal + 1 <= 0) return;
+        if (signal + 1 <= 0 || !CheckDistanceTransmissibility(originX,originY)) return;
+       
+
+      
         spriteRenderer.color = Color.green;
     }
+    
     public void StopHighlight()
     {
-        if (signal > 0) return;
+        if (signal > 0 ) return;
+        
         spriteRenderer.color = originalColor;
+    }
+    bool CheckTileTransmissibility(int x, int y)
+    {
+        if (Grid.instance.tiles[x, y] == null) return false;
+        return Grid.instance.tiles[x, y].signal >= 0;
+    }
+    bool CheckDistanceTransmissibility(int originX, int originY)
+    {
+        int distanceX = Mathf.Abs(x - originX);
+        int distanceY = Mathf.Abs(y - originY);
+        if (y < originY)
+        {
+            for (int i = 1; i <= distanceY; i++)
+            {
+                if (!CheckTileTransmissibility(x, y + i))
+                {
+                    return false;
+                }
+
+            }
+        }
+        else if (x < originX)
+        {
+            for (int i = 1; i <= distanceX; i++)
+            {
+                if (!CheckTileTransmissibility(x + i, y))
+                {
+                    return false;
+                }
+
+            }
+        }
+        else if (x > originX)
+        {
+            for (int i = 1; i <= distanceX; i++)
+            {
+                if (!CheckTileTransmissibility(x - i, y))
+                {
+                    return false;
+                }
+
+            }
+
+        }
+        else if (y > originY)
+        {
+            for (int i = 1; i <= distanceY; i++)
+            {
+                if (!CheckTileTransmissibility(x, y - i))
+                {
+                    return false;
+                }
+
+            }
+
+        }
+        return true;
     }
     public void SetOccupyingBuilding(Building building)
     {
         occupyingBuilding = building.buildingType;
         occupied = true;
-        if (building.buildingType == BuildingType.Antenna || building.buildingType == BuildingType.RepeaterAntenna)
-        {
-            IncreaseSignal(1);
-        }
+        signal += building.signalPower;
     }
-    public void IncreaseSignal(int amount)
+    public void IncreaseSignal(int amount, int originX, int originY)
     {
+        if (CheckDistanceTransmissibility(originX, originY))
         signal += amount;
     }
     public void DecreaseSignal(int amount)
