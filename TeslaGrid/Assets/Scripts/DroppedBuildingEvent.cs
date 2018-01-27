@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿
 
 //Created by Ramon Lopez - @RamonDev - npgdev@gmail.com
 
-public class DroppedBuildingEvent : MonoBehaviour 
+public class DroppedBuildingEvent : CodeControl.Message 
 {
 
 

@@ -8,7 +8,16 @@ public class Grid : MonoBehaviour
     public int sizeX;
     public int sizeY;
     public Tile[,] tiles;
-
+    public static Grid instance;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else Debug.LogWarning("More than one grid");
+        
+    }
     private void Start()
     {
         tiles = new Tile[sizeX, sizeY];
@@ -68,9 +77,6 @@ public class Grid : MonoBehaviour
 
 
                 }
-
-
-
                 else if (i == tiles.GetLength(0) - 1 && j == tiles.GetLength(1) - 1) // top right
                 {
                     tiles[i, j].neighboringTiles.Add(tiles[i, j - 1]);
