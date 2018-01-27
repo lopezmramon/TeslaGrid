@@ -8,8 +8,14 @@ public class Tile : MonoBehaviour
 {
     public int x;
     public int y;
-    public bool occupied, hasSignal;
+    public bool occupied;
+    int signal;
+    public int GetSignal()
+    {
+        return signal;
+    }
     public BuildingType occupyingBuilding;
+    public TileType type;
     public List<Tile> neighboringTiles = new List<Tile>();
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -22,17 +28,21 @@ public class Tile : MonoBehaviour
     {
         transform.position = new Vector3(x, y);
         transform.name = string.Format("Tile {0},{1}", x, y);
+        signal = InitialSignal();
     }
 
-    private void OnMouseEnter()
+    int InitialSignal()
     {
-        DispatchTentativePlacementEvent();
+        switch (type)
+        {
+            case TileType.Plain: return 0;
+            case TileType.Mountain: return -3;
+            case TileType.City: return 1;
+            case TileType.Water: return -1;
+            case TileType.Woods: return -2;
+        }
+        return 0;
     }
-    private void OnMouseExit()
-    {
-        DispatchTentativePlacementRejectedEvent();
-    }
-   
     public void HighlightNeighbors(int horizontalDepth, int verticalDepth)
     {
         for (int i = 1; i <= horizontalDepth; i++)
@@ -52,15 +62,61 @@ public class Tile : MonoBehaviour
     }
     public void StopHighlight()
     {
+        if (signal > 0) return;
         spriteRenderer.color = originalColor;
     }
-
+    public void SetOccupyingBuilding(Building building)
+    {
+        occupyingBuilding = building.buildingType;
+        occupied = true;
+        if (building.buildingType == BuildingType.Antenna || building.buildingType == BuildingType.RepeaterAntenna)
+        {
+            IncreaseSignal(1);
+        }
+    }
+    public void IncreaseSignal(int amount)
+    {
+        signal += amount;
+    }
+    public void DecreaseSignal(int amount)
+    {
+        signal -= amount;
+    }
     void DispatchTentativePlacementRejectedEvent()
     {
         CodeControl.Message.Send<TentativePlacementRejectedEvent>(new TentativePlacementRejectedEvent());
     }
     void DispatchTentativePlacementEvent()
     {
+        if (type == TileType.Mountain || type == TileType.Water) return;
+
         CodeControl.Message.Send<TentativePlacementEvent>(new TentativePlacementEvent(this));
+    }
+    void DispatchBuildingGrabbedEvent()
+    {
+        occupied = false;
+        DecreaseSignal(1);
+        StopHighlight();
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        CodeControl.Message.Send<GrabbedBuildingEvent>(new GrabbedBuildingEvent(this.occupyingBuilding));
+
+    }
+    private void OnMouseEnter()
+    {
+        DispatchTentativePlacementEvent();
+    }
+    private void OnMouseExit()
+    {
+        DispatchTentativePlacementRejectedEvent();
+    }
+    private void OnMouseDown()
+    {
+        if (occupied)
+        {
+            DispatchBuildingGrabbedEvent();
+        }
     }
 }

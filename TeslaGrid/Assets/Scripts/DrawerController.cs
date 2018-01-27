@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DrawerController : MonoBehaviour 
 {
     bool open;
+    public Button[] buttons;
     private void Start()
     {
         open = false;
+        for(int i =0; i < buttons.Length; i++)
+        {
+
+        }
     }
     public void ToggleDrawer()
     {
@@ -20,8 +26,12 @@ public class DrawerController : MonoBehaviour
         }
         open = !open;
     }
-    public void DispatchGrabbedBuildingEvent(GameObject gameObject)
+    public void GrabBuilding(int buildingIndex)
     {
-        CodeControl.Message.Send<GrabbedBuildingEvent>(new GrabbedBuildingEvent(gameObject));
+        DispatchGrabbedBuildingEvent((BuildingType) buildingIndex);
+    }
+    public void DispatchGrabbedBuildingEvent(BuildingType requestedBuilding)
+    {
+        CodeControl.Message.Send<GrabbedBuildingEvent>(new GrabbedBuildingEvent(requestedBuilding));
     }
 }

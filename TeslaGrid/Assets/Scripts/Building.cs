@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 //Created by Ramon Lopez - @RamonDev - npgdev@gmail.com
@@ -10,10 +10,16 @@ public class Building : MonoBehaviour
     public BuildingType buildingType;
 
     SpriteRenderer spriteRenderer;
-
+    public List<Tile> tilesAffected = new List<Tile>();
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
+    private void OnDestroy()
+    {
+        foreach(Tile tile in tilesAffected)
+        {
+            tile.DecreaseSignal(1);
+        }
+    }
 }

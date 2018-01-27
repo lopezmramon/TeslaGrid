@@ -5,10 +5,10 @@ using UnityEngine;
 
 public enum TileType
 {
+    Plain,
     Mountain,
     Water,
     Woods,
-    Plain,
     City
 }
 
