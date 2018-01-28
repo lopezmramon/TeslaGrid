@@ -26,20 +26,27 @@ public class Tile : MonoBehaviour
     public bool isObjective;
     [HideInInspector]
     public int objectiveSignal;
+    Animator animator;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         originalColor = spriteRenderer.color;
     }
     private void Start()
     {
-        transform.position = new Vector3(x, y);
+        transform.position = new Vector3(x*0.5f+y*-0.5f,x*0.3f+y*0.3f);
         transform.name = string.Format("Tile {0},{1}", x, y);
         signal = InitialSignal();
         Highlight(x, y, false);
         StopHighlight();
         spriteRenderer.sprite = sprites[(int)type];
+        spriteRenderer.sortingOrder = 500 - y*10 -x*10;
+        gameObject.AddComponent<PolygonCollider2D>();
+        animator.SetBool("Online", signal > 0);
+
+
     }
 
     int InitialSignal()
@@ -52,6 +59,7 @@ public class Tile : MonoBehaviour
             case TileType.Water: return -1;
             case TileType.Woods: return -2;
         }
+
         return 0;
     }
    
@@ -59,16 +67,16 @@ public class Tile : MonoBehaviour
     {
         
         if (!satellite && !CheckDistanceTransmissibility(originX,originY) || signal<0) return;
-      
-        
-        spriteRenderer.color = Color.green;
+
+        animator.SetBool("Online", true);
+
     }
     
     public void StopHighlight()
     {
         if (signal > 0 ) return;
-        
-        spriteRenderer.color = originalColor;
+        animator.SetBool("Online", false);
+
     }
     bool CheckTileTransmissibility(int x, int y)
     {
@@ -134,17 +142,19 @@ public class Tile : MonoBehaviour
         occupied = true;
         signal += building.signalPower;
     }
-    public void IncreaseSignal(int amount, int originX, int originY)
+    public void IncreaseSignal(int amount, int originX, int originY, bool satellite)
     {
+
         if(originX == x && originY == y)
         {
             signal += amount;
-            return;
-        }
-        if (CheckDistanceTransmissibility(originX, originY))
-        signal += amount;
+        }else if (satellite || CheckDistanceTransmissibility(originX, originY))
+        {
+            signal += amount;
 
-        if(signal == objectiveSignal && isObjective)
+        }
+        animator.SetBool("Online", signal > 0);
+        if (signal == objectiveSignal && isObjective)
         {
             DispatchGoalReachedEvent();
         }
@@ -190,7 +200,13 @@ public class Tile : MonoBehaviour
             DispatchBuildingGrabbedEvent();
         }
     }
-
+    public void SetAsObjective()
+    {
+        isObjective = true;
+        animator.SetBool("Objective", isObjective);
+        originalColor = Color.red;
+        spriteRenderer.color = originalColor;
+    }
     void DispatchGoalReachedEvent()
     {
         CodeControl.Message.Send<TileGoalReachedEvent>(new TileGoalReachedEvent(this));

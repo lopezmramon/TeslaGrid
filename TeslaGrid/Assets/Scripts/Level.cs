@@ -18,7 +18,7 @@ public class Level : MonoBehaviour
     IEnumerator SetObjectives()
     {
         yield return new WaitForSeconds(0.5f);
-        LevelManager.instance.grid.tiles[specificTileX, specificTileY].isObjective = true;
+        LevelManager.instance.grid.tiles[specificTileX, specificTileY].SetAsObjective();
         LevelManager.instance.grid.tiles[specificTileX, specificTileY].objectiveSignal = specificTileSignalAmount;
         if (levelType == LevelType.CoverTiles)
         {
