@@ -9,7 +9,7 @@ public class Grid : MonoBehaviour
     public int sizeY;
     public Tile[,] tiles;
     public GameObject tilePrefab;
-
+    
     public void DetectGrid()
     {
         tiles = new Tile[sizeX, sizeY];
@@ -244,4 +244,6 @@ public class Grid : MonoBehaviour
     {
         return Mathf.RoundToInt(maxAmount / Random.Range(1, 2));
     }
+
+   
 }

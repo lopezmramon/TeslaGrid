@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour
     {
 
         ViewChanger.instance.ChangeView(4);
-
+        CheckError();
+    }
+    void CheckError()
+    {
+       var  error = FindObjectOfType<Building>();
+        if (error != null)
+            Destroy(error.gameObject);
     }
 }

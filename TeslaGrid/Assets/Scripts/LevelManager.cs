@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     bool random;
     RandomLevelRequest randomRequest;
     Building error;
-    
+    public Sprite shadowSprite;
     private void Awake()
     {
         progress = 0;
@@ -28,22 +28,32 @@ public class LevelManager : MonoBehaviour
     private void OnGridCreated(GridCreatedEvent e)
     {
         this.grid = e.grid;
+        CreateShadow(grid.transform);
     }
     private void OnRemoveLevelRequested(RemoveLevelRequestEvent obj)
     {
         Destroy(currentLevel);
-    }
+        CheckError();
 
+    }
+    void CheckError()
+    {
+        error = FindObjectOfType<Building>();
+        if (error != null)
+            Destroy(error.gameObject);
+    }
     private void OnGenerateLevelRequested(GenerateLevelRequestEvent obj)
     {
-
-        error = FindObjectOfType<Building>();
-        if(error !=null)
-        Destroy(error.gameObject);
+        CheckError();
         if (currentLevel != null) Destroy(currentLevel);
 
         if (obj.retry)
         {
+            if (progress >= levels.Length)
+            {
+                OnRandomGenerateLevelRequested(new RandomLevelRequest(new Vector2(8, 8), 3, 1, 3, 5, 1400));
+                return;
+            }
             currentLevel = Instantiate(levels[progress].gameObject);
             currentLevel.GetComponent<Grid>().DetectGrid();
         }
@@ -77,6 +87,17 @@ public class LevelManager : MonoBehaviour
         randomRequest = e;
         random = true;
     }
+    void CreateShadow(Transform transform)
+    {
+       
 
+        GameObject shadow = new GameObject();
+        var shadowSprite = shadow.AddComponent<SpriteRenderer>();
+        shadowSprite.sprite = this.shadowSprite;
+        shadowSprite.sortingOrder = 0;
+        shadow.transform.position = new Vector3(0, 1.24f);
+        shadow.transform.localScale = new Vector3(0.7f, 0.7f);
+        shadow.transform.SetParent(transform);
+    }
 
 }

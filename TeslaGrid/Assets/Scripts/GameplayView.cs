@@ -7,27 +7,33 @@ public class GameplayView : MonoBehaviour
 {
     public Text moneyText;
     public Text notEnoughMoneyText;
-    public Button retryButton;
+    public Button retryButton, regenerateButton;
     bool randomLevel;
+    RandomLevelRequest r;
     private void Awake()
     {
         CodeControl.Message.AddListener<MoneyChangeEvent>(OnMoneyChanged);
         CodeControl.Message.AddListener<NotEnoughMoneyEvent>(OnNotEnoughMoney);
         CodeControl.Message.AddListener<RandomLevelRequest>(OnRandomLevelRequested);
+        CodeControl.Message.AddListener<GenerateLevelRequestEvent>(OnGenerateLevelRequest);
+    }
+
+    private void OnGenerateLevelRequest(GenerateLevelRequestEvent obj)
+    {
+        retryButton.gameObject.SetActive(true);
+        regenerateButton.gameObject.SetActive(false);
+        randomLevel = false;
     }
 
     private void OnRandomLevelRequested(RandomLevelRequest obj)
     {
-
+        r = obj;
         retryButton.gameObject.SetActive(false);
+        regenerateButton.gameObject.SetActive(true);
         randomLevel = true;
 
     }
-    private void OnEnable()
-    {
-        retryButton.gameObject.SetActive(true);
-        randomLevel = false;
-    }
+
     private void Start()
     {
         moneyText.text = "Cash: $" + ResourceManager.instance.money.ToString();
@@ -38,7 +44,6 @@ public class GameplayView : MonoBehaviour
         if (!randomLevel)
         {
             retryButton.gameObject.SetActive(true);
-
         }
 
     }
@@ -67,5 +72,9 @@ public class GameplayView : MonoBehaviour
         CodeControl.Message.Send<RemoveLevelRequestEvent>(new RemoveLevelRequestEvent());
 
         CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(false, true));
+    }
+    public void RegenerateLevel()
+    {
+        CodeControl.Message.Send<RandomLevelRequest>(r);
     }
 }
