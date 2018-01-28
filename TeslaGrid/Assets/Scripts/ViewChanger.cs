@@ -30,6 +30,11 @@ public class ViewChanger : MonoBehaviour
         if(view == 1)
         {
             DispatchLevelRequestEvent(0);
+           // MusicManager.instance.PlaySong(1);
+        }else if(view == 0)
+        {
+            MusicManager.instance.PlaySong(0);
+
         }
         else
         {
@@ -50,7 +55,7 @@ public class ViewChanger : MonoBehaviour
     }
     void DispatchLevelRequestEvent(int level)
     {
-        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(level));
+        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(false,true));
     }
     void DispatchLevelRemoveRequestEvent()
     {

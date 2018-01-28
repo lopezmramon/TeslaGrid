@@ -200,27 +200,51 @@ public class BuildingPlacementController : MonoBehaviour
     }
     void DispatchBuildingDroppedEvent()
     {
+        Building building = heldBuilding.GetComponent<Building>();
         if (tentativeTile == null)
         {
             Destroy(heldBuilding.gameObject);
 
         }
+        else if (ResourceManager.instance.money < building.cost)
+        {
+            DispatchNotEnoughMoneyEvent();
+        }
         else
         {
             tentativeTile.SetOccupyingBuilding(heldBuilding.GetComponent<Building>());
-
+            if (building.buildingType == BuildingType.P2PAntennaHorizontal || building.buildingType == BuildingType.P2PAntennaVertical)
+            {
+                MusicManager.instance.PlaySound(0);
+            }
+            else if (building.buildingType == BuildingType.SatelliteHorizontal || building.buildingType == BuildingType.SatelliteVertical)
+            {
+                MusicManager.instance.PlaySound(1);
+            }
+            else if (building.buildingType == BuildingType.RepeaterAntenna)
+            {
+                MusicManager.instance.PlaySound(2);
+            }
             heldBuilding.transform.SetParent(tentativeTile.transform);
 
             foreach (Tile tile in tentativeTileNeighbors)
             {
-                tile.IncreaseSignal(1, tentativeTile.x, tentativeTile.y, heldBuilding.GetComponent<Building>().buildingType == BuildingType.SatelliteHorizontal || heldBuilding.GetComponent<Building>().buildingType == BuildingType.SatelliteVertical ? true : false);
+                tile.IncreaseSignal(1, tentativeTile.x, tentativeTile.y, building.buildingType == BuildingType.SatelliteHorizontal || heldBuilding.GetComponent<Building>().buildingType == BuildingType.SatelliteVertical ? true : false);
                 heldBuilding.GetComponent<Building>().tilesAffected.Add(tile);
 
             }
+            CodeControl.Message.Send<DroppedBuildingEvent>(new DroppedBuildingEvent(true, tentativeTile));
         }
 
         tentativeTileNeighbors.Clear();
         this.heldBuilding = null;
         isBuildingHeld = false;
+    }
+    void DispatchNotEnoughMoneyEvent()
+    {
+        Destroy(heldBuilding);
+        heldBuilding = null;
+        CodeControl.Message.Send<NotEnoughMoneyEvent>(new NotEnoughMoneyEvent());
+
     }
 }

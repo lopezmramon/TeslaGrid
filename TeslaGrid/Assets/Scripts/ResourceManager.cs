@@ -5,8 +5,14 @@ public class ResourceManager : MonoBehaviour
 {
     public int money;
     public int repeaterCost, p2pAntennaCost, satelliteCost;
+    public static ResourceManager instance;
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else Debug.LogWarning("More than one Resource Manager");
         CodeControl.Message.AddListener<DroppedBuildingEvent>(OnBuildingDropped);
     }
 
@@ -17,7 +23,10 @@ public class ResourceManager : MonoBehaviour
             ChangeMoney(e.tile.occupyingBuilding, e.tile.type);
         }
     }
-
+    public void AssignMoney(int totalMoneyAmount)
+    {
+        money = totalMoneyAmount;
+    }
     void ChangeMoney(BuildingType buildingType, TileType tileType)
     {
         int cost = 0;
@@ -41,6 +50,7 @@ public class ResourceManager : MonoBehaviour
             cost += 100;
         }
         money -= cost;
+        DispatchMoneyChangeEvent();
     }
 
     void DispatchMoneyChangeEvent()

@@ -12,7 +12,7 @@ public class Level : MonoBehaviour
     private void Start()
     {
         StartCoroutine(SetObjectives());
-
+        ResourceManager.instance.AssignMoney(moneyAmount);
     }
 
     public IEnumerator SetObjectives()

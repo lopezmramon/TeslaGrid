@@ -9,8 +9,12 @@ public class LevelManager : MonoBehaviour
     public GameObject gridPrefab;
     public Grid grid;
     public static LevelManager instance;
+    int progress;
+    bool random;
+    RandomLevelRequest randomRequest;
     private void Awake()
     {
+        progress = 0;
         CodeControl.Message.AddListener<GenerateLevelRequestEvent>(OnGenerateLevelRequested);
         CodeControl.Message.AddListener<RemoveLevelRequestEvent>(OnRemoveLevelRequested);
         CodeControl.Message.AddListener<GridCreatedEvent>(OnGridCreated);
@@ -29,22 +33,47 @@ public class LevelManager : MonoBehaviour
 
     private void OnGenerateLevelRequested(GenerateLevelRequestEvent obj)
     {
-        if (currentLevel != null) Destroy(currentLevel);
-        PlayerPrefs.SetInt("CurrentLevel", obj.levelRequested);
-        if (obj.levelRequested <= levels.Length)
+
+        foreach (Building b in FindObjectsOfType<Building>())
         {
-            currentLevel = Instantiate(levels[obj.levelRequested].gameObject);
+            Destroy(b.gameObject);
+        }
+        if (currentLevel != null) Destroy(currentLevel);
+
+        if (obj.retry)
+        {
+            currentLevel = Instantiate(levels[progress].gameObject);
             currentLevel.GetComponent<Grid>().DetectGrid();
         }
-        else
+        else if (!obj.retry && !obj.random)
         {
-            OnRandomGenerateLevelRequested(new RandomLevelRequest(10, new Vector2(7, 7), 5, 1, 2, 3,2000));
+            progress++;
+            if (progress >= levels.Length)
+            {
+                OnRandomGenerateLevelRequested(new RandomLevelRequest(10, new Vector2(8, 8), 3, 1, 3, 5, 1400));
+            }
+            else
+            {
+                currentLevel = Instantiate(levels[progress].gameObject);
+                currentLevel.GetComponent<Grid>().DetectGrid();
+            }
+
+        }
+        else if (random)
+        {
+            OnRandomGenerateLevelRequested(randomRequest);
         }
     }
+
     private void OnRandomGenerateLevelRequested(RandomLevelRequest e)
     {
+        PlayerPrefs.SetInt("CurrentLevel", 1500);
         grid = Instantiate(gridPrefab).GetComponent<Grid>();
         currentLevel = grid.gameObject;
-        grid.GenerateGrid(e.difficulty, e.size,e.mountainAmount,e.waterAmount,e.woodsAmount,e.cityAmount);
+        grid.GenerateGrid(e.difficulty, e.size, e.mountainAmount, e.waterAmount, e.woodsAmount, e.cityAmount);
+        randomRequest = e;
+        random = true;
     }
+
+
 }

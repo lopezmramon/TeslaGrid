@@ -4,28 +4,18 @@ using UnityEngine.UI;
 
 public class DrawerController : MonoBehaviour 
 {
-    bool open;
-    public Button[] buttons;
-    private void Start()
+    Image image;
+    private void Awake()
     {
-        open = false;
-        for(int i =0; i < buttons.Length; i++)
-        {
+        image = GetComponent<Image>();
 
-        }
     }
-    public void ToggleDrawer()
+    
+    private void OnEnable()
     {
-        if (open)
-        {
-
-        }
-        else
-        {
-
-        }
-        open = !open;
+        image.color = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 235);
     }
+   
     public void GrabBuilding(int buildingIndex)
     {
         DispatchGrabbedBuildingEvent(buildingIndex);

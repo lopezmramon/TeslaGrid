@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class GenerateLevelRequestEvent : CodeControl.Message 
 {
-    public int levelRequested;
+    public bool random;
+    public bool retry;
 
-    public GenerateLevelRequestEvent(int levelRequested)
+    public GenerateLevelRequestEvent(bool random, bool retry)
     {
-        this.levelRequested = levelRequested;
+        this.random = random;
+        this.retry = retry; 
     }
 
 

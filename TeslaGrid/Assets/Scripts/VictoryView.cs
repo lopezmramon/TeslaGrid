@@ -7,10 +7,9 @@ public class VictoryView : MonoBehaviour
     public void NextLevel()
     {
         ViewChanger.instance.ChangeView(1);
-        int nextLevel = PlayerPrefs.GetInt("CurrentLevel") + 1;
         CodeControl.Message.Send<RemoveLevelRequestEvent>(new RemoveLevelRequestEvent());
 
-        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(nextLevel));
+        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(false,false));
 
     }
 
@@ -19,7 +18,7 @@ public class VictoryView : MonoBehaviour
         ViewChanger.instance.ChangeView(1);
         CodeControl.Message.Send<RemoveLevelRequestEvent>(new RemoveLevelRequestEvent());
 
-        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(PlayerPrefs.GetInt("CurrentLevel")));
+        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(false,true));
     }
 
 }

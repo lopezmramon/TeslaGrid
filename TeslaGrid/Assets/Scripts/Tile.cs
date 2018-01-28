@@ -34,12 +34,7 @@ public class Tile : MonoBehaviour
         animator = GetComponent<Animator>();
         originalColor = spriteRenderer.color;
     }
-    private void Start()
-    {
-      
-
-
-    }
+    
     public void Initialize()
     {
         transform.position = new Vector3(x * 0.5f + y * -0.5f, x * 0.3f + y * 0.3f);
