@@ -36,19 +36,22 @@ public class Tile : MonoBehaviour
     }
     private void Start()
     {
-        transform.position = new Vector3(x*0.5f+y*-0.5f,x*0.3f+y*0.3f);
+      
+
+
+    }
+    public void Initialize()
+    {
+        transform.position = new Vector3(x * 0.5f + y * -0.5f, x * 0.3f + y * 0.3f);
         transform.name = string.Format("Tile {0},{1}", x, y);
         signal = InitialSignal();
         Highlight(x, y, false);
         StopHighlight();
         spriteRenderer.sprite = sprites[(int)type];
-        spriteRenderer.sortingOrder = 500 - y*10 -x*10;
+        spriteRenderer.sortingOrder = 500 - y * 10 - x * 10;
         gameObject.AddComponent<PolygonCollider2D>();
         animator.SetBool("Online", signal > 0);
-
-
     }
-
     int InitialSignal()
     {
         switch (type)

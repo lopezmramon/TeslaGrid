@@ -15,7 +15,7 @@ public class Level : MonoBehaviour
 
     }
 
-    IEnumerator SetObjectives()
+    public IEnumerator SetObjectives()
     {
         yield return new WaitForSeconds(0.5f);
         LevelManager.instance.grid.tiles[specificTileX, specificTileY].SetAsObjective();

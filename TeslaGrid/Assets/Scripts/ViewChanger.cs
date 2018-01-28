@@ -41,7 +41,13 @@ public class ViewChanger : MonoBehaviour
     {
         Application.Quit();
     }
-
+    public void RandomLevelGameplay()
+    {
+        views[currentView].SetActive(false);
+        views[1].SetActive(true);
+        currentView = 1;
+        views[1].GetComponent<GameplayView>().RandomGame();
+    }
     void DispatchLevelRequestEvent(int level)
     {
         CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(level));

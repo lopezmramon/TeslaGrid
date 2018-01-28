@@ -18,4 +18,9 @@ public class GameplayView : MonoBehaviour
         moneyText.text = obj.money.ToString();
 
     }
+
+    public void RandomGame()
+    {
+        CodeControl.Message.Send<RandomLevelRequest>(new RandomLevelRequest(10, new Vector2(7, 7),5,1,2,3,2000));
+    }
 }
