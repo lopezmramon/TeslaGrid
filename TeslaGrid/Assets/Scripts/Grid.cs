@@ -10,10 +10,6 @@ public class Grid : MonoBehaviour
     public Tile[,] tiles;
     public GameObject tilePrefab;
 
-    private void Start()
-    {
-    }
-
     public void DetectGrid()
     {
         tiles = new Tile[sizeX, sizeY];
@@ -33,7 +29,7 @@ public class Grid : MonoBehaviour
 
     }
 
-    public void GenerateGrid(int difficulty, Vector2 size, int maxMountains, int maxWater, int maxWoods, int maxCities)
+    public void GenerateGrid( Vector2 size, int maxMountains, int maxWater, int maxWoods, int maxCities, int money)
     {
         Level level = null;
         if (GetComponent<Level>() == null)
@@ -43,7 +39,7 @@ public class Grid : MonoBehaviour
         else level = GetComponent<Level>();
 
         level.levelType = LevelType.SpecificTileSignal;
-        level.moneyAmount = 2000 - difficulty * 100;
+        level.moneyAmount = money;
 
 
 
@@ -58,12 +54,10 @@ public class Grid : MonoBehaviour
                 tiles[i, j].y = j;
             }
         }
-        int woodsChance = Random.Range(0, difficultyModifier(difficulty) - 2);
+        int woodsChance = Random.Range(0, randomModifier(maxWoods));
 
-        int waterChance = Random.Range(0, difficultyModifier(difficulty) - 2);
-        int mountainChance = Random.Range(0, difficultyModifier(difficulty));
-
-        int cityNumber = difficultyModifier(difficulty);
+        int waterChance = Random.Range(0, randomModifier(maxWater));
+        int mountainChance = Random.Range(0, randomModifier(maxMountains));
 
         int cityAmount = 0;
         int mountainAmount = 0;
@@ -153,7 +147,7 @@ public class Grid : MonoBehaviour
             tiles[randomForMountains.x, randomForMountains.y].type = TileType.Mountain;
             tiles[randomForMountains.x, randomForMountains.y].Initialize();
 
-            woodsAmount++;
+            mountainAmount++;
         }
         Vector2Int randomForObjective = RollRandomForAdjustments();
 
@@ -166,7 +160,6 @@ public class Grid : MonoBehaviour
         level.specificTileY = randomForObjective.y;
         level.specificTileSignalAmount = 1;
         StartCoroutine(level.SetObjectives());
-        //    tiles[randomForObjective.x, randomForObjective.y]
 
 
     }
@@ -247,8 +240,8 @@ public class Grid : MonoBehaviour
         }
     }
 
-    private int difficultyModifier(int difficulty)
+    private int randomModifier(int maxAmount)
     {
-        return Mathf.RoundToInt(difficulty / Random.Range(1, 2));
+        return Mathf.RoundToInt(maxAmount / Random.Range(1, 2));
     }
 }

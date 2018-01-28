@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,9 +17,17 @@ public class ViewChanger : MonoBehaviour
             instance = this;
         }
         else Debug.LogWarning("More than one Viewchanger");
+        CodeControl.Message.AddListener<RandomLevelRequest>(OnRandomLevelRequested);
     }
+
+   
+
     private void Start()
     {
+        foreach(GameObject g in views)
+        {
+            g.SetActive(false);
+        }
         currentView = 0;
         ChangeView(0);
     }
@@ -46,13 +55,7 @@ public class ViewChanger : MonoBehaviour
     {
         Application.Quit();
     }
-    public void RandomLevelGameplay()
-    {
-        views[currentView].SetActive(false);
-        views[1].SetActive(true);
-        currentView = 1;
-        views[1].GetComponent<GameplayView>().RandomGame();
-    }
+  
     void DispatchLevelRequestEvent(int level)
     {
         CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(false,true));
@@ -60,5 +63,12 @@ public class ViewChanger : MonoBehaviour
     void DispatchLevelRemoveRequestEvent()
     {
         CodeControl.Message.Send<RemoveLevelRequestEvent>(new RemoveLevelRequestEvent());
+    }
+
+    private void OnRandomLevelRequested(RandomLevelRequest obj)
+    {
+        views[currentView].SetActive(false);
+        views[1].SetActive(true);
+        currentView = 1;
     }
 }

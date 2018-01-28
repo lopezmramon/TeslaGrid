@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class VictoryView : MonoBehaviour 
 {
-
+    
     public void NextLevel()
     {
         ViewChanger.instance.ChangeView(1);

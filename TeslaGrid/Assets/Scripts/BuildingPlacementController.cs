@@ -226,6 +226,7 @@ public class BuildingPlacementController : MonoBehaviour
                 MusicManager.instance.PlaySound(2);
             }
             heldBuilding.transform.SetParent(tentativeTile.transform);
+            heldBuilding.transform.localPosition = Vector3.zero;
 
             foreach (Tile tile in tentativeTileNeighbors)
             {

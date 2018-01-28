@@ -632,9 +632,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7878328fa4fc6aa45903b0b8a227c4ee, type: 3}
   - {fileID: 8300000, guid: 9a2253c09a477dc45ba44938f6b287fd, type: 3}
   - {fileID: 8300000, guid: 2ac5aec4f318292469c49a76e479dfbb, type: 3}
+  - {fileID: 8300000, guid: 69fb3c77af996cf4d8bea43030b451fb, type: 3}
+  - {fileID: 8300000, guid: 4fa23e4f229ed5841b14ce43d9fc18b4, type: 3}
   musicSource: {fileID: 1567909402}
   soundSource: {fileID: 1567909401}
---- !u!1001 &1806203368
+--- !u!1001 &1672713042
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -730,6 +732,30 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773176861248402, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1415926158340758, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1360092460290320, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1094043857911198, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262176176685430, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1151433438884038, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a80aeeac6c0bfa24da2f46f41bf9cee8, type: 2}

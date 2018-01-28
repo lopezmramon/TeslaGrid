@@ -59,13 +59,13 @@ public class GameplayView : MonoBehaviour
 
     public void RandomGame()
     {
-        CodeControl.Message.Send<RandomLevelRequest>(new RandomLevelRequest(10, new Vector2(7, 7), 5, 1, 2, 3, 2000));
+        ViewChanger.instance.ChangeView(5);
     }
     public void RetryLevel()
     {
         // ViewChanger.instance.ChangeView(1);
         CodeControl.Message.Send<RemoveLevelRequestEvent>(new RemoveLevelRequestEvent());
 
-        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(false,true));
+        CodeControl.Message.Send<GenerateLevelRequestEvent>(new GenerateLevelRequestEvent(false, true));
     }
 }

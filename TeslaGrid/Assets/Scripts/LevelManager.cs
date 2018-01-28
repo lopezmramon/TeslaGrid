@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class LevelManager : MonoBehaviour
     int progress;
     bool random;
     RandomLevelRequest randomRequest;
+    Building error;
+    
     private void Awake()
     {
         progress = 0;
@@ -34,10 +37,9 @@ public class LevelManager : MonoBehaviour
     private void OnGenerateLevelRequested(GenerateLevelRequestEvent obj)
     {
 
-        foreach (Building b in FindObjectsOfType<Building>())
-        {
-            Destroy(b.gameObject);
-        }
+        error = FindObjectOfType<Building>();
+        if(error !=null)
+        Destroy(error.gameObject);
         if (currentLevel != null) Destroy(currentLevel);
 
         if (obj.retry)
@@ -50,7 +52,7 @@ public class LevelManager : MonoBehaviour
             progress++;
             if (progress >= levels.Length)
             {
-                OnRandomGenerateLevelRequested(new RandomLevelRequest(10, new Vector2(8, 8), 3, 1, 3, 5, 1400));
+                OnRandomGenerateLevelRequested(new RandomLevelRequest(new Vector2(8, 8), 3, 1, 3, 5, 1400));
             }
             else
             {
@@ -67,10 +69,11 @@ public class LevelManager : MonoBehaviour
 
     private void OnRandomGenerateLevelRequested(RandomLevelRequest e)
     {
+        if (currentLevel != null) Destroy(currentLevel);
         PlayerPrefs.SetInt("CurrentLevel", 1500);
         grid = Instantiate(gridPrefab).GetComponent<Grid>();
         currentLevel = grid.gameObject;
-        grid.GenerateGrid(e.difficulty, e.size, e.mountainAmount, e.waterAmount, e.woodsAmount, e.cityAmount);
+        grid.GenerateGrid(e.size, e.mountainAmount, e.waterAmount, e.woodsAmount, e.cityAmount, e.money);
         randomRequest = e;
         random = true;
     }

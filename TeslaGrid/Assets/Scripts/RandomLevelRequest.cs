@@ -4,7 +4,6 @@ using UnityEngine;
 public class RandomLevelRequest : CodeControl.Message
 {
 
-    public int difficulty;
     public Vector2 size = new Vector2();
     public int woodsAmount;
     public int cityAmount;
@@ -12,9 +11,8 @@ public class RandomLevelRequest : CodeControl.Message
     public int mountainAmount;
     public int money;
   
-    public RandomLevelRequest(int difficulty, Vector2 size, int woodsAmount, int cityAmount, int waterAmount, int mountainAmount, int money)
+    public RandomLevelRequest(Vector2 size, int woodsAmount, int cityAmount, int waterAmount, int mountainAmount, int money)
     {
-        this.difficulty = difficulty;
         this.size = size;
         this.woodsAmount = woodsAmount;
         this.cityAmount = cityAmount;
