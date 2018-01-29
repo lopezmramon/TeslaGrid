@@ -38,9 +38,11 @@ public class LevelManager : MonoBehaviour
     }
     void CheckError()
     {
-        error = FindObjectOfType<Building>();
-        if (error != null)
-            Destroy(error.gameObject);
+        var error = FindObjectsOfType<Building>();
+        for(int i =0; i < error.Length; i++)
+        {
+            Destroy(error[i].gameObject);
+        }
     }
     private void OnGenerateLevelRequested(GenerateLevelRequestEvent obj)
     {

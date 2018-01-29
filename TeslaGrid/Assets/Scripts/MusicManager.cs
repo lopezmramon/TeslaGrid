@@ -32,17 +32,19 @@ public class MusicManager : MonoBehaviour
     public void PlaySong(int index)
     {
         musicSource.Stop();
+        musicSource.clip = musicTracks[1];
         if(index < musicTracks.Length)
         {
-            musicSource.PlayOneShot(musicTracks[index]);
+            musicSource.PlayOneShot(musicTracks[1]);
             currentSongPlaying = index;
         }
         else
         {
-            index = Random.Range(0, musicTracks.Length);
-            musicSource.PlayOneShot(musicTracks[index]);
+           
+            musicSource.PlayOneShot(musicTracks[1]);
             currentSongPlaying = index;
         }
+        musicSource.loop = true;
     }
     
     public void PlaySound(int index)

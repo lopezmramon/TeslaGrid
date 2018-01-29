@@ -36,7 +36,7 @@ public class GameplayView : MonoBehaviour
 
     private void Start()
     {
-        moneyText.text = "Cash: $" + ResourceManager.instance.money.ToString();
+        moneyText.text = ResourceManager.instance.money.ToString();
     }
     void OnNotEnoughMoney(NotEnoughMoneyEvent obj)
     {

@@ -26,6 +26,8 @@ public class ResourceManager : MonoBehaviour
     public void AssignMoney(int totalMoneyAmount)
     {
         money = totalMoneyAmount;
+        CodeControl.Message.Send<MoneyChangeEvent>(new MoneyChangeEvent(money));
+
     }
     void ChangeMoney(BuildingType buildingType, TileType tileType)
     {

@@ -201,7 +201,7 @@ public class BuildingPlacementController : MonoBehaviour
     void DispatchBuildingDroppedEvent()
     {
         Building building = heldBuilding.GetComponent<Building>();
-        if (tentativeTile == null)
+        if (tentativeTile == null || tentativeTile.GetSignal()<1)
         {
             Destroy(heldBuilding.gameObject);
 

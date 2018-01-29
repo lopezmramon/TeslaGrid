@@ -13,7 +13,7 @@ public class DrawerController : MonoBehaviour
     
     private void OnEnable()
     {
-        image.color = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 235);
+       // image.color = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 235);
     }
    
     public void GrabBuilding(int buildingIndex)
