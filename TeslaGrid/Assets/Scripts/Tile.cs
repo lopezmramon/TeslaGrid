@@ -8,8 +8,11 @@ public class Tile : MonoBehaviour
 {
     public int x;
     public int y;
-    [HideInInspector]
-    public bool occupied;
+    private bool occupied;
+    public bool GetIsOccupied()
+    {
+        return occupied;
+    }
     [SerializeField]
     int signal;
     public int GetSignal()
@@ -27,14 +30,22 @@ public class Tile : MonoBehaviour
     [HideInInspector]
     public int objectiveSignal;
     Animator animator;
-
+    bool pressed;
+    float pressedTimer;
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         originalColor = spriteRenderer.color;
+        pressed = false;
     }
-    
+    private void Update()
+    {
+        if (pressed)
+        {
+            pressedTimer += Time.deltaTime;
+        }
+    }
     public void Initialize()
     {
         transform.position = new Vector3(x * 0.5f + y * -0.5f, x * 0.3f + y * 0.3f);
@@ -60,19 +71,19 @@ public class Tile : MonoBehaviour
 
         return 0;
     }
-   
+
     public void Highlight(int originX, int originY, bool satellite)
     {
-        
-        if (!satellite && !CheckDistanceTransmissibility(originX,originY) || signal<0) return;
+
+        if (!satellite && !CheckDistanceTransmissibility(originX, originY) || signal < 0) return;
 
         animator.SetBool("Online", true);
 
     }
-    
+
     public void StopHighlight()
     {
-        if (signal > 0 ) return;
+        if (signal > 0) return;
         animator.SetBool("Online", false);
 
     }
@@ -85,7 +96,7 @@ public class Tile : MonoBehaviour
     {
         int distanceX = Mathf.Abs(x - originX);
         int distanceY = Mathf.Abs(y - originY);
-       
+
         if (y < originY)
         {
             for (int i = 1; i <= distanceY; i++)
@@ -142,11 +153,11 @@ public class Tile : MonoBehaviour
     }
     public void IncreaseSignal(int amount, int originX, int originY, bool satellite)
     {
-
-        if(originX == x && originY == y)
+        if (originX == x && originY == y)
         {
             signal += amount;
-        }else if (satellite || CheckDistanceTransmissibility(originX, originY))
+        }
+        else if (satellite || CheckDistanceTransmissibility(originX, originY))
         {
             signal += amount;
 
@@ -162,6 +173,49 @@ public class Tile : MonoBehaviour
     {
         signal -= amount;
     }
+
+    private void OnMouseEnter()
+    {
+        if (occupied) return;
+        DispatchTentativePlacementEvent();
+    }
+    private void OnMouseExit()
+    {
+        DispatchTentativePlacementRejectedEvent();
+    }
+    private void OnMouseDown()
+    {
+        pressed = true;
+        pressedTimer = 0;
+       
+    }
+    private void OnMouseUpAsButton()
+    {
+        pressed = false;
+        if (pressedTimer > 1)
+        {
+            if (occupied && !BuildingPlacementController.isBuildingHeld)
+            {
+                DispatchBuildingGrabbedEvent();
+            }
+        }
+        else
+        {
+            DispatchActivateTooltipRequest();
+        }
+
+
+
+
+        pressedTimer = 0;
+    }
+    public void SetAsObjective()
+    {
+        isObjective = true;
+        animator.SetBool("Objective", isObjective);
+        originalColor = Color.red;
+        spriteRenderer.color = originalColor;
+    }
     void DispatchTentativePlacementRejectedEvent()
     {
         CodeControl.Message.Send<TentativePlacementRejectedEvent>(new TentativePlacementRejectedEvent());
@@ -170,6 +224,14 @@ public class Tile : MonoBehaviour
     {
         if (type == TileType.Mountain || type == TileType.Water) return;
         CodeControl.Message.Send<TentativePlacementEvent>(new TentativePlacementEvent(this));
+    }
+    void DispatchGoalReachedEvent()
+    {
+        CodeControl.Message.Send<TileGoalReachedEvent>(new TileGoalReachedEvent(this));
+    }
+    void DispatchActivateTooltipRequest()
+    {
+        CodeControl.Message.Send<ActivateTooltipRequest>(new ActivateTooltipRequest(this));
     }
     void DispatchBuildingGrabbedEvent()
     {
@@ -180,33 +242,8 @@ public class Tile : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        CodeControl.Message.Send<GrabbedBuildingEvent>(new GrabbedBuildingEvent((int)this.occupyingBuilding));
+        CodeControl.Message.Send<BuildingGrabbedFromTileEvent>(new BuildingGrabbedFromTileEvent((int)this.occupyingBuilding));
 
     }
-    private void OnMouseEnter()
-    {
-        DispatchTentativePlacementEvent();
-    }
-    private void OnMouseExit()
-    {
-        DispatchTentativePlacementRejectedEvent();
-    }
-    private void OnMouseDown()
-    {
-        if (occupied)
-        {
-            DispatchBuildingGrabbedEvent();
-        }
-    }
-    public void SetAsObjective()
-    {
-        isObjective = true;
-        animator.SetBool("Objective", isObjective);
-        originalColor = Color.red;
-        spriteRenderer.color = originalColor;
-    }
-    void DispatchGoalReachedEvent()
-    {
-        CodeControl.Message.Send<TileGoalReachedEvent>(new TileGoalReachedEvent(this));
-    }
+
 }

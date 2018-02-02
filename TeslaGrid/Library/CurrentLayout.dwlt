@@ -428,19 +428,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Resources/Prefabs
+    - Assets/Resources/Graphics/BGs
   m_ViewMode: 1
   m_StartGridSize: 84
   m_LastFolders:
-  - Assets/Resources/Prefabs
+  - Assets/Resources/Graphics/BGs
   m_LastFoldersGridSize: 84
   m_LastProjectPath: C:\Users\lopez\Documents\TeslaGrid\TeslaGrid
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 75}
-    m_SelectedIDs: f62b0000
-    m_LastClickedID: 11254
-    m_ExpandedIDs: 0000000040290000862b0000342c000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 103}
+    m_SelectedIDs: 822a0000
+    m_LastClickedID: 10882
+    m_ExpandedIDs: 00000000422900008a2b00003a2c0000522c000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -468,7 +468,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000040290000862b0000342c0000
+    m_ExpandedIDs: 00000000422900008a2b00003a2c0000522c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -586,21 +586,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 14adfeffe0adfefff6affeffbaddfeff86defeffa0e0feff90f9ffff9cf9ffffa6f9ffffaaf9ffffdaf9ffff04fbffffa0fbffffa4fbffffa6fbffff00000000f03c0000d03f0000
+    m_ExpandedIDs: 603cfdff3236ffff52dcffff40e7ffffcafaffff0afbffff22fbffff98fbffffa0fbffffa4fbffffa6fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: TooltipContainer
+      m_OriginalName: TooltipContainer
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: -181152
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 4}
     m_SearchString: 
@@ -636,14 +636,14 @@ MonoBehaviour:
     width: 1259
     height: 655
   m_SceneLighting: 1
-  lastFramingTime: 2055.5807896645615
+  lastFramingTime: 11714.098625858418
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 695.78564, y: 275.32132, z: -3}
+    m_Target: {x: 603.1598, y: 286.90906, z: 0.40493226}
     speed: 2
-    m_Value: {x: 695.78564, y: 275.32132, z: -3}
+    m_Value: {x: 603.1598, y: 286.90906, z: 0.40493226}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -670,9 +670,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 1058.438
+    m_Target: 420.13974
     speed: 2
-    m_Value: 1058.438
+    m_Value: 420.13974
   m_Ortho:
     m_Target: 1
     speed: 2

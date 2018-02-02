@@ -10,14 +10,26 @@ public class GameplayView : MonoBehaviour
     public Button retryButton, regenerateButton;
     bool randomLevel;
     RandomLevelRequest r;
+    public GameObject tooltipContainer;
     private void Awake()
     {
         CodeControl.Message.AddListener<MoneyChangeEvent>(OnMoneyChanged);
         CodeControl.Message.AddListener<NotEnoughMoneyEvent>(OnNotEnoughMoney);
         CodeControl.Message.AddListener<RandomLevelRequest>(OnRandomLevelRequested);
         CodeControl.Message.AddListener<GenerateLevelRequestEvent>(OnGenerateLevelRequest);
+        CodeControl.Message.AddListener<ActivateTooltipRequest>(OnActivateTooltipRequest);
     }
 
+    private void OnActivateTooltipRequest(ActivateTooltipRequest obj)
+    {
+        tooltipContainer.SetActive(true);
+        tooltipContainer.transform.position = Camera.main.WorldToScreenPoint(obj.tile.transform.position);
+    }
+
+    private void OnEnable()
+    {
+        tooltipContainer.SetActive(false);
+    }
     private void OnGenerateLevelRequest(GenerateLevelRequestEvent obj)
     {
         retryButton.gameObject.SetActive(true);

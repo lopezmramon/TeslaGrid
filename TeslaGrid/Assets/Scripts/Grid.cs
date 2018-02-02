@@ -9,7 +9,7 @@ public class Grid : MonoBehaviour
     public int sizeY;
     public Tile[,] tiles;
     public GameObject tilePrefab;
-    
+    Tile cityTile;
     public void DetectGrid()
     {
         tiles = new Tile[sizeX, sizeY];
@@ -29,7 +29,7 @@ public class Grid : MonoBehaviour
 
     }
 
-    public void GenerateGrid( Vector2 size, int maxMountains, int maxWater, int maxWoods, int maxCities, int money)
+    public void GenerateGrid(Vector2 size, int maxMountains, int maxWater, int maxWoods, int maxCities, int money)
     {
         Level level = null;
         if (GetComponent<Level>() == null)
@@ -94,7 +94,7 @@ public class Grid : MonoBehaviour
 
             }
         }
-
+        cityTile = null;
         while (cityAmount < maxCities)
         {
             Vector2Int randomForCities = RollRandomForAdjustments();
@@ -105,12 +105,12 @@ public class Grid : MonoBehaviour
             }
             tiles[randomForCities.x, randomForCities.y].type = TileType.City;
             tiles[randomForCities.x, randomForCities.y].Initialize();
-
+            cityTile = tiles[randomForCities.x, randomForCities.y];
             cityAmount++;
 
         }
 
-        while(woodsAmount < maxWoods)
+        while (woodsAmount < maxWoods)
         {
             Vector2Int randomForWoods = RollRandomForAdjustments();
             while (tiles[randomForWoods.x, randomForWoods.y].type != TileType.Plain)
@@ -149,15 +149,23 @@ public class Grid : MonoBehaviour
 
             mountainAmount++;
         }
-        Vector2Int randomForObjective = RollRandomForAdjustments();
-
-        while (tiles[randomForObjective.x,randomForObjective.y].type == TileType.City)
+      /*  Vector2Int randomForObjective = RollRandomForAdjustments();
+        bool nearCity = true;
+        for (int attempts = 0; attempts < 40; attempts++)
         {
             randomForObjective = RollRandomForAdjustments();
 
-        }
-        level.specificTileX = randomForObjective.x;
-        level.specificTileY = randomForObjective.y;
+            nearCity = CheckIfTileIsFarEnoughFromCity(randomForObjective.x, randomForObjective.y, (int)size.x - 3);
+            if (!nearCity && tiles[randomForObjective.x, randomForObjective.y].type != TileType.City)
+            {
+                attempts = 40;
+            }
+        }*/
+
+        Vector2Int objectiveTileCoordinates = ChooseObjectiveTileRandomly();
+
+        level.specificTileX = objectiveTileCoordinates.x;
+        level.specificTileY = objectiveTileCoordinates.y;
         level.specificTileSignalAmount = 1;
         StartCoroutine(level.SetObjectives());
 
@@ -244,6 +252,63 @@ public class Grid : MonoBehaviour
     {
         return Mathf.RoundToInt(maxAmount / Random.Range(1, 2));
     }
+    bool CheckIfTileIsCity(int x, int y)
+    {
+        return (tiles[x, y].type == TileType.City);
+    }
 
-   
+    bool CheckIfTileIsFarEnoughFromCity(int x, int y, int distance)
+    {
+        bool near = true;
+        int cityTileX = cityTile.x;
+        int cityTileY = cityTile.y;
+        if (Mathf.Abs(cityTileX - x) >= distance || Mathf.Abs(cityTileY - y) >= distance)
+        {
+            near = false;
+        }
+        return near;
+
+    }
+
+    Vector2Int ChooseObjectiveTileRandomly()
+    {
+        int randomDirection = (int)Mathf.Sign(Mathf.Sin(Random.Range(0, 360) * Mathf.Deg2Rad));
+        int distance = Mathf.RoundToInt(tiles.GetLength(0) / 2);
+     
+        int objectiveX = cityTile.x + distance * randomDirection;
+
+        int objectiveY = cityTile.y + distance * randomDirection;
+
+        if (objectiveX < 0)
+        {
+            objectiveX = cityTile.x - distance * randomDirection;
+
+        }
+         if (objectiveX >= tiles.GetLength(0))
+        {
+            objectiveX = cityTile.x - distance * randomDirection;
+
+        }
+        if (objectiveY < 0)
+        {
+            objectiveY = cityTile.y - distance * randomDirection;
+        }
+        if (objectiveY >= tiles.GetLength(1))
+        {
+            objectiveY = cityTile.y - distance * randomDirection;
+
+        }
+        if(cityTile.y - distance * randomDirection < 0 && cityTile.y - distance * randomDirection >= tiles.GetLength(1))
+        {
+            objectiveY = cityTile.y + (distance-1) * randomDirection;
+
+        }
+        if (cityTile.x - distance * randomDirection < 0 && cityTile.x - distance * randomDirection >= tiles.GetLength(0))
+        {
+            objectiveX = cityTile.x + (distance - 1) * randomDirection;
+
+        }
+        return new Vector2Int(objectiveX, objectiveY);
+    }
+
 }

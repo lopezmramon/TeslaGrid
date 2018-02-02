@@ -8,13 +8,20 @@ public class BuildingPlacementController : MonoBehaviour
     GameObject heldBuilding;
     public GameObject[] buildings;
     Tile tentativeTile;
-    bool isBuildingHeld;
     List<Tile> tentativeTileNeighbors = new List<Tile>();
+    public static bool isBuildingHeld;
     private void Awake()
     {
         CodeControl.Message.AddListener<GrabbedBuildingEvent>(OnBuildingGrabbed);
         CodeControl.Message.AddListener<TentativePlacementEvent>(OnTentativePlacementFound);
         CodeControl.Message.AddListener<TentativePlacementRejectedEvent>(OnTentativePlacementRejected);
+        CodeControl.Message.AddListener<BuildingGrabbedFromTileEvent>(OnBuildingGrabbedFromTile);
+    }
+
+    private void OnBuildingGrabbedFromTile(BuildingGrabbedFromTileEvent obj)
+    {
+        StartCoroutine(GenerateBuilding((int)obj.GetBuilding()));
+
     }
 
     private void OnBuildingGrabbed(GrabbedBuildingEvent obj)
@@ -168,7 +175,7 @@ public class BuildingPlacementController : MonoBehaviour
     void RemoveLinearHighlights(Tile tile)
     {
         tentativeTileNeighbors.Clear();
-        if (tile == null || tile.occupied) return;
+        if (tile == null || tile.GetIsOccupied()) return;
         foreach (Tile t in LevelManager.instance.grid.tiles)
         {
             if (t.GetSignal() <= 0)
@@ -183,7 +190,6 @@ public class BuildingPlacementController : MonoBehaviour
     private void Update()
     {
         if (!isBuildingHeld) return;
-        if (heldBuilding == null) isBuildingHeld = false;
         heldBuilding.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
@@ -201,14 +207,17 @@ public class BuildingPlacementController : MonoBehaviour
     void DispatchBuildingDroppedEvent()
     {
         Building building = heldBuilding.GetComponent<Building>();
-        if (tentativeTile == null || tentativeTile.GetSignal()<1)
-        {
-            Destroy(heldBuilding.gameObject);
 
+        if (tentativeTile == null ||tentativeTile.GetIsOccupied() || tentativeTile.GetSignal() < 1)
+        {
+            DisregardHeldBuilding();
+            return;
         }
         else if (ResourceManager.instance.money < building.cost)
         {
             DispatchNotEnoughMoneyEvent();
+            DisregardHeldBuilding();
+            return;
         }
         else
         {
@@ -235,10 +244,19 @@ public class BuildingPlacementController : MonoBehaviour
 
             }
             CodeControl.Message.Send<DroppedBuildingEvent>(new DroppedBuildingEvent(true, tentativeTile));
+            isBuildingHeld = false;
+
+            heldBuilding = null;
+            return;
         }
 
-        tentativeTileNeighbors.Clear();
-        this.heldBuilding = null;
+        //  tentativeTileNeighbors.Clear();
+        // DisregardHeldBuilding();
+    }
+    void DisregardHeldBuilding()
+    {
+        Destroy(heldBuilding.gameObject);
+        heldBuilding = null;
         isBuildingHeld = false;
     }
     void DispatchNotEnoughMoneyEvent()
